@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CGPA Calculator</title>
+    <style>
+        body {
+            background-color: black;
+            color: red;
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            text-align: center;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input[type="number"] {
+            width: 60px;
+            text-align: center;
+        }
+
+        #calculateButton {
+            background-color: red;
+            color: black;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+
+        #calculateButton:hover {
+            background-color: #ff3333;
+        }
+
+        #result {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>CGPA Calculator</h1>
+
+    <div class="container">
+        <label>Enter Marks (Out of 100):</label>
+        <input type="number" id="mark1" min="0" max="100" placeholder="Subject 1">
+        <input type="number" id="mark2" min="0" max="100" placeholder="Subject 2">
+        <input type="number" id="mark3" min="0" max="100" placeholder="Subject 3">
+        <input type="number" id="mark4" min="0" max="100" placeholder="Subject 4">
+        <input type="number" id="mark5" min="0" max="100" placeholder="Subject 5">
+
+        <label>Enter Credit Hours:</label>
+        <input type="number" id="credit1" min="1" placeholder="Credit Hr 1">
+        <input type="number" id="credit2" min="1" placeholder="Credit Hr 2">
+        <input type="number" id="credit3" min="1" placeholder="Credit Hr 3">
+        <input type="number" id="credit4" min="1" placeholder="Credit Hr 4">
+        <input type="number" id="credit5" min="1" placeholder="Credit Hr 5">
+
+        <button id="calculateButton" onclick="calculateCGPA()">Calculate CGPA</button>
+
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculateCGPA() {
+            const marks = [
+                parseFloat(document.getElementById("mark1").value),
+                parseFloat(document.getElementById("mark2").value),
+                parseFloat(document.getElementById("mark3").value),
+                parseFloat(document.getElementById("mark4").value),
+                parseFloat(document.getElementById("mark5").value)
+            ];
+
+            const creditHours = [
+                parseInt(document.getElementById("credit1").value),
+                parseInt(document.getElementById("credit2").value),
+                parseInt(document.getElementById("credit3").value),
+                parseInt(document.getElementById("credit4").value),
+                parseInt(document.getElementById("credit5").value)
+            ];
+
+            const totalCreditHours = creditHours.reduce((total, credit) => total + credit, 0);
+            let weightedSum = 0;
+
+            for (let i = 0; i < marks.length; i++) {
+                if (marks[i] < 0 || marks[i] > 100) {
+                    alert("Marks should be between 0 and 100.");
+                    return;
+                }
+                weightedSum += (marks[i] / 100) * creditHours[i];
+            }
+
+            const cgpa = (weightedSum / totalCreditHours) * 4; // Scale to a 0-4 range
+
+            document.getElementById("result").textContent = `Your CGPA is: ${cgpa.toFixed(2)}`;
+        }
+    </script>
+</body>
+</html>
